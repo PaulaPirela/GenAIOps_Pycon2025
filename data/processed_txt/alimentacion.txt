@@ -1,0 +1,84 @@
+alimentacion = """Guía de Alimentación Saludable
+Asistente de Bienestar Medellín
+Esta guía te acompaña paso a paso para que adoptes una alimentación más saludable y
+equilibrada sin dejar de disfrutar los sabores locales de Medellín.
+No se trata de hacer dietas estrictas, sino de encontrar un equilibrio que funcione para ti y tu
+familia.
+Medellín tiene un clima templado y generoso. Puedes aprovechar frutas como mango, guayaba,
+papaya, banano, piña y aguacate durante todo el año.
+La clave está en disfrutar los productos frescos, locales y de temporada.
+Principios básicos
+- Come variado y colorido.
+- Mantén equilibrio entre proteínas, carbohidratos complejos y grasas saludables.
+- Toma al menos ocho vasos de agua al día.
+- No temas a los carbohidratos naturales.
+- Si vas a darte un gusto, hazlo con conciencia y sin culpa.
+Consejos simples
+- Prefiere productos frescos de las plazas de mercado.
+- Reduce al mínimo los fritos y las gaseosas.
+- Incluye al menos una comida vegetariana a la semana.
+- Cocina con aceite de oliva o aguacate.
+- No comas con prisa: disfruta los sabores.
+Ejemplo de menú
+Desayuno: arepa integral con huevo revuelto y jugo natural sin azúcar.
+Almuerzo: arroz integral, lentejas, aguacate y ensalada.Cena: sopa de verduras con pan integral o tortilla de espinaca.
+Sostenibilidad también es salud
+Aprovecha los alimentos de temporada, evita desperdiciar comida y compra local.
+Consejo rápido del asistente de bienestar:
+Puedo generarte un plan semanal personalizado para tres personas con menús saludables
+adaptados a Medellín.
+"""
+ejercicio = """Rutinas de Ejercicio y Estiramiento
+Asistente de Bienestar Medellín
+Moverte un poco cada día ya es un gran paso para tu bienestar.
+No necesitas un gimnasio ni equipos costosos: con tu propio cuerpo, constancia y motivación,
+puedes mejorar tu energía y tu salud.
+Recomendaciones generales
+- Realiza al menos 150 minutos de actividad física a la semana.
+- Empieza con 5 minutos de calentamiento.
+- Hidrátate bien antes y después del ejercicio.
+- Si un día no puedes completar tu rutina, no pasa nada.
+Rutina semanal
+Lunes: caminata de 30 a 40 minutos.
+Martes: 3 rondas de 10 sentadillas, 10 flexiones y 20 abdominales.
+Miércoles: yoga o estiramientos 20-30 min.
+Jueves: sube escaleras o caminata en pendiente (Cerro Nutibara).
+Viernes: bici, zumba o baile libre.Sábado: actividad en grupo.
+Domingo: descanso activo y respiración.
+Estiramientos básicos
+- Cuello: giros suaves.
+- Espalda: estira brazos al frente.
+- Piernas: inclínate para tocar tus pies.
+- Brazos: estira hombros y pecho.
+Cuida tu postura
+Levántate cada 45 min si trabajas sentado.
+Relaja los hombros y apoya los pies en el suelo.
+Consejo rápido del asistente de bienestar:
+Puedo ayudarte a crear una rutina semanal personalizada para tres personas ajustando intensidad
+y tipo de ejercicio.
+"""
+mental = """Guía de Salud Mental y Bienestar Emocional
+Asistente de Bienestar Medellín
+Cuidar tu mente es tan importante como cuidar tu cuerpo.
+Esta guía te ayuda a incorporar pequeños hábitos que pueden transformar tus días y hacerte sentir
+más tranquilo y equilibrado.
+Principios para una mente en calma
+- Duerme entre 7 y 9 h cada noche.
+- Respira profundo 5 min diarios.
+- Haz pausas sin pantallas.- Aprende a decir “no”.
+- Acepta los días difíciles.
+Rutina diaria sugerida
+Mañana: estiramientos y desayuno tranquilo.
+Tarde: almuerzo sin pantallas, pausa para respirar.
+Noche: música suave o lectura ligera.
+Salud mental en el trabajo
+Evita la multitarea excesiva y comunica tus límites.
+Desconectarte también es parte de cuidar tu salud mental.
+Recursos en Medellín
+- Línea Amiga Salud Mental 604 444 4448
+- Centros de Escucha (Alcaldía de Medellín)
+- Universidades y EPS: EAFIT, UPB, Comfama, Sura.
+Consejo rápido del asistente de bienestar:
+Puedo ayudarte a crear un plan diario de relajación y descanso personalizado con rutinas de
+respiración y autocuidado.
+"""

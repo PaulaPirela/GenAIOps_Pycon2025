@@ -1,82 +1,135 @@
-# app/rag_pipeline.py
-
 import os
-from langchain.globals import set_verbose, get_verbose
-
-set_verbose(True)  # Si quieres ver logs detallados
-
-from langchain_openai import OpenAIEmbeddings
-from langchain_openai import ChatOpenAI
-
-from langchain_community.vectorstores import FAISS
-from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.prompts import PromptTemplate
-from langchain.chains import ConversationalRetrievalChain
-
 from dotenv import load_dotenv
-import mlflow
+from pathlib import Path
 
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.document_loaders import DirectoryLoader, TextLoader, PyPDFLoader
+from langchain_community.vectorstores import FAISS
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.runnables import RunnableLambda
+
+# -----------------------------------------------------------
+# 1️⃣ CONFIGURACIÓN INICIAL
+# -----------------------------------------------------------
 load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-DATA_DIR = "data/pdfs"
-PROMPT_DIR = "app/prompts"
-VECTOR_DIR = "vectorstore"
 
-def load_documents(path=DATA_DIR):
-    docs = []
-    for file in os.listdir(path):
-        if file.endswith(".pdf"):
-            loader = PyPDFLoader(os.path.join(path, file))
-            docs.extend(loader.load())
-    return docs
+# -----------------------------------------------------------
+# 2️⃣ DETECCIÓN AUTOMÁTICA DE FORMATO (PDF o TXT)
+# -----------------------------------------------------------
+def detectar_tipo_archivo(data_path: str):
+    """Detecta si la carpeta contiene PDFs o TXTs"""
+    path = Path(data_path)
+    pdfs = list(path.glob("*.pdf"))
+    txts = list(path.glob("*.txt"))
+    if pdfs and not txts:
+        return "pdf"
+    elif txts and not pdfs:
+        return "txt"
+    elif pdfs and txts:
+        return "mixto"
+    else:
+        raise FileNotFoundError(f"⚠️ No se encontraron archivos en {data_path}")
 
-def save_vectorstore(chunk_size=512, chunk_overlap=50, persist_path=VECTOR_DIR):
-    docs = load_documents()
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap
+
+# -----------------------------------------------------------
+# 3️⃣ INGESTA Y VECTORSTORE
+# -----------------------------------------------------------
+def save_vectorstore(data_path: str = "data/pdfs",
+                     chunk_size: int = 512,
+                     chunk_overlap: int = 50):
+    """
+    Carga los documentos (PDF o TXT) desde data_path,
+    genera embeddings y guarda un índice FAISS localmente.
+    """
+    tipo = detectar_tipo_archivo(data_path)
+    print(f"📂 Cargando documentos desde: {data_path} ({tipo.upper()})")
+
+    if tipo == "pdf":
+        loader = DirectoryLoader(data_path, glob="**/*.pdf", loader_cls=PyPDFLoader)
+    else:
+        loader = DirectoryLoader(data_path, glob="**/*.txt", loader_cls=TextLoader)
+
+    documents = loader.load()
+    print(f"🧾 Se cargaron {len(documents)} documentos.")
+
+    splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size,
+                                              chunk_overlap=chunk_overlap)
+    chunks = splitter.split_documents(documents)
+    print(f"✂️  Documentos divididos en {len(chunks)} fragmentos.")
+
+    embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+    vectordb = FAISS.from_documents(chunks, embeddings)
+
+    os.makedirs("vectorstore", exist_ok=True)
+    vectordb.save_local("vectorstore")
+    print("✅ Vectorstore guardado en ./vectorstore/")
+
+
+def load_vectorstore_from_disk():
+    """Carga el índice FAISS desde ./vectorstore"""
+    embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+    vectordb = FAISS.load_local("vectorstore", embeddings,
+                                allow_dangerous_deserialization=True)
+    print("✅ Vectorstore cargado desde disco.")
+    return vectordb
+
+
+# -----------------------------------------------------------
+# 4️⃣ PIPELINE RAG MODERNO (LangChain ≥ 0.3.x)
+# -----------------------------------------------------------
+def build_chain(vectordb, prompt_version: str = "v6_asistente_bienestar_cercano"):
+    """
+    Construye un pipeline RAG moderno compatible con chain.invoke()
+    """
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    retriever = vectordb.as_retriever(search_kwargs={"k": 3})
+
+    system_prompt = (
+        "Eres el Asistente de Bienestar Medellín. "
+        "Responde con empatía, naturalidad y precisión, "
+        "usando solo información confiable de los documentos. "
+        "Si no tienes información suficiente, dilo claramente."
     )
-    chunks = splitter.split_documents(docs)
-    embeddings = OpenAIEmbeddings()
-    vectordb = FAISS.from_documents(chunks, embedding=embeddings)
-    vectordb.save_local(persist_path)
 
-    mlflow.set_experiment("vectorstore_tracking")
-    with mlflow.start_run(run_name="vectorstore_build"):
-        mlflow.log_param("chunk_overlap", chunk_overlap)
-        mlflow.log_param("n_chunks", len(chunks))
-        mlflow.log_param("n_docs", len(docs))
-        mlflow.set_tag("vectorstore", persist_path)
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        MessagesPlaceholder(variable_name="chat_history"),
+        ("human", "{question}")
+    ])
 
-def load_vectorstore(chunk_size=512, chunk_overlap=50):
-    docs = load_documents()
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap
+    # ✅ versión moderna con retriever.invoke() y RunnableLambda
+    def retrieve_context(inputs):
+        question = inputs["question"]
+        docs = retriever.invoke(question)
+        context = "\n\n".join([doc.page_content for doc in docs])
+        return {
+            "context": context,
+            "question": question,
+            "chat_history": inputs.get("chat_history", []),
+        }
+
+    chain = (
+        RunnableLambda(retrieve_context)
+        | prompt
+        | llm
     )
-    chunks = splitter.split_documents(docs)
-    embeddings = OpenAIEmbeddings()
-    return FAISS.from_documents(chunks, embedding=embeddings)
 
-def load_vectorstore_from_disk(persist_path=VECTOR_DIR):
-    embeddings = OpenAIEmbeddings()
-    return FAISS.load_local(persist_path, embeddings, allow_dangerous_deserialization=True)
+    print(f"🤖 Cadena RAG construida con prompt: {prompt_version}")
+    return chain
 
-def load_prompt(version="v1_asistente_rrhh"):
-    prompt_path = os.path.join(PROMPT_DIR, f"{version}.txt")
-    if not os.path.exists(prompt_path):
-        raise FileNotFoundError(f"Prompt no encontrado: {prompt_path}")
-    with open(prompt_path, "r") as f:
-        prompt_text = f.read()
-    return PromptTemplate(input_variables=["context", "question"], template=prompt_text)
 
-def build_chain(vectordb, prompt_version="v1_asistente_rrhh"):
-    prompt = load_prompt(prompt_version)
-    retriever = vectordb.as_retriever()
-    return ConversationalRetrievalChain.from_llm(
-        llm = ChatOpenAI(model="gpt-4o", temperature=0),
-        retriever=retriever,
-        combine_docs_chain_kwargs={"prompt": prompt},
-        return_source_documents=False
-    )
+# -----------------------------------------------------------
+# 5️⃣ PRUEBA LOCAL
+# -----------------------------------------------------------
+if __name__ == "__main__":
+    save_vectorstore("data/pdfs")  # o "data/processed_txt" si ya convertiste
+    vectordb = load_vectorstore_from_disk()
+    chain = build_chain(vectordb)
+    result = chain.invoke({
+        "question": "¿Qué recomienda el asistente para una dieta saludable?",
+        "chat_history": []
+    })
+    print("💬", result)

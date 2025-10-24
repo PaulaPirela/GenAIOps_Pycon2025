@@ -1,22 +1,42 @@
 [
     {
-        "question": "\u00bfQu\u00e9 cubre el plan de beneficios Northwind Health Plus?",
-        "answer": "El plan Northwind Health Plus cubre atenci\u00f3n m\u00e9dica, dental, de la vista, medicamentos recetados y servicios de salud mental."
+        "question": "¿Cuáles son los grupos básicos de alimentos según las guías alimentarias de Colombia?",
+        "answer": "Las guías alimentarias de Colombia clasifican los alimentos en siete grupos: cereales, tubérculos y plátanos; hortalizas y frutas; leche y derivados; carnes, huevos y leguminosas secas; grasas; azúcares; y alimentos ultraprocesados que deben consumirse en mínima cantidad."
     },
     {
-        "question": "\u00bfCu\u00e1l es el procedimiento para tomar una licencia por maternidad?",
-        "answer": "Debes notificar a Recursos Humanos al menos 30 d\u00edas antes de la fecha esperada y presentar la documentaci\u00f3n m\u00e9dica correspondiente."
+        "question": "¿Qué recomiendan las guías alimentarias para el consumo de sal y azúcar?",
+        "answer": "Se recomienda reducir al mínimo el consumo de sal y azúcar, evitando bebidas azucaradas y prefiriendo preparaciones caseras con condimentos naturales."
     },
     {
-        "question": "\u00bfQu\u00e9 incluye el programa PerksPlus?",
-        "answer": "PerksPlus incluye descuentos en gimnasios, membres\u00edas de bienestar, vales de alimentos y soporte financiero."
+        "question": "¿Qué tipo de ejercicio se sugiere para adultos según los lineamientos de bienestar?",
+        "answer": "Los adultos deberían realizar al menos 150 minutos semanales de actividad física moderada, incluyendo ejercicios de fuerza dos veces por semana."
     },
     {
-        "question": "\u00bfQu\u00e9 responsabilidades tiene un analista de datos seg\u00fan el role library?",
-        "answer": "Seg\u00fan el Role Library, un analista de datos debe recolectar, limpiar y analizar datos para generar reportes estrat\u00e9gicos para el negocio."
+        "question": "¿Qué prácticas promueven una buena salud mental?",
+        "answer": "Dormir bien, mantener una alimentación balanceada, realizar actividad física regularmente y mantener vínculos sociales saludables son prácticas que favorecen la salud mental."
     },
     {
-        "question": "\u00bfCu\u00e1les son los beneficios est\u00e1ndar de Northwind?",
-        "answer": "Los beneficios est\u00e1ndar incluyen seguro m\u00e9dico b\u00e1sico, vacaciones pagadas, y plan de retiro 401(k)."
+        "question": "¿Qué recomienda la guía nacional para la hidratación diaria?",
+        "answer": "Beber entre 6 y 8 vasos de agua al día y preferir agua natural sobre bebidas azucaradas o energizantes."
+    },
+    {
+        "question": "¿Qué alimentos deben evitarse en exceso según las guías colombianas?",
+        "answer": "Debe evitarse el consumo frecuente de alimentos ultraprocesados, fritos, embutidos, bebidas azucaradas y productos con exceso de sodio o grasas saturadas."
+    },
+    {
+        "question": "¿Cómo se sugiere distribuir las comidas diarias?",
+        "answer": "Se recomienda realizar tres comidas principales y dos refrigerios saludables, manteniendo horarios regulares."
+    },
+    {
+        "question": "¿Cuál es la importancia de desayunar según las recomendaciones de bienestar?",
+        "answer": "Desayunar ayuda a mantener la energía durante el día y mejora la concentración, especialmente en estudiantes y trabajadores."
+    },
+    {
+        "question": "¿Qué estrategias ayudan a reducir el estrés diario?",
+        "answer": "Practicar respiración consciente, dedicar tiempo al descanso, escuchar música y realizar caminatas cortas son estrategias efectivas para reducir el estrés."
+    },
+    {
+        "question": "¿Qué alimentos favorecen la salud del corazón?",
+        "answer": "El consumo de frutas, verduras, leguminosas, pescado, aguacate y aceite de oliva contribuye a una mejor salud cardiovascular."
     }
 ]
