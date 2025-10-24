@@ -70,8 +70,7 @@ mlflow ui
 Iniciar el panel de métricas y resultados:
 streamlit run app/dashboard.py
 
-README del Asistente de IA (GenAIOps 2025)
-Este proyecto desarrolla e implementa un Asistente Virtual basado en la arquitectura RAG (Retrieval-Augmented Generation), con un enfoque en la evaluación rigurosa mediante MLflow. Fue concebido para el curso Minería de Grandes Volúmenes de Datos – EAFIT.
+Este proyecto desarrolla e implementa un Asistente Virtual basado en la arquitectura RAG (Retrieval-Augmented Generation), con un enfoque en la evaluación rigurosa mediante MLflow.
 
 El asistente está diseñado para responder consultas sobre temas de salud preventiva y estilo de vida (como alimentación saludable, pausas activas y bienestar físico y mental), utilizando exclusivamente el contenido de documentos PDF internos procesados localmente. El rol configurado (Portavoz Institucional y Analista de Políticas) le exige comunicar de forma formal y técnica las directrices oficiales.
 
