@@ -40,7 +40,7 @@ GenAIOps_Pycon2025/
 1. Configuración y Dependencias
 Clonar el repositorio e instalar dependencias:
 
-git clone https://github.com/tiagog20/GenAIOps_Pycon2025.git
+git clone https://github.com/PaulaPirela/GenAIOps_Pycon2025.git
 cd GenAIOps_Pycon2025
 pip install -r requirements.txt
 
